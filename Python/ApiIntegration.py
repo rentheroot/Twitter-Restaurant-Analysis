@@ -12,14 +12,25 @@ access_token_secret = "aggABxF67fsBSDJDkhzpBbYiUF15M0fQuPU1Xy5XqK8xT"
 consumer_key = "McoZRCrbLbONTKGVHR65qLEmF"
 consumer_secret = "ffNHti5vHkkzu5sehaGkpB4Pvntds8tKYZFMw1pQTXcqFCR05f"
 
+
 #Override tweepy.StreamListner, print statuses to stdout
 class StdOutListener(StreamListener):
 
+    #init
+    def __init__(self, api=None):
+        super(StdOutListener, self).__init__()
+        self.num_tweets = 0
+
+        
     def on_data(self, data):
-        with open ('TwitterOutput') as f:
-            for i in range(50):
+        with open ('TwitterOutput.txt') as f:
+            self.num_tweets += 1
+            if self.num_tweets < 20:
                 print(data)
-        return True
+                return True
+            else:
+                return False
+        
 
     def on_error(self, status):
         print(status)
