@@ -12,11 +12,13 @@ access_token_secret = "aggABxF67fsBSDJDkhzpBbYiUF15M0fQuPU1Xy5XqK8xT"
 consumer_key = "McoZRCrbLbONTKGVHR65qLEmF"
 consumer_secret = "ffNHti5vHkkzu5sehaGkpB4Pvntds8tKYZFMw1pQTXcqFCR05f"
 
-#Override tweepy.StreamListner
+#Override tweepy.StreamListner, print statuses to stdout
 class StdOutListener(StreamListener):
 
-    def on_status(status, data):
-        print(data)
+    def on_data(self, data):
+        with open ('TwitterOutput') as f:
+            for i in range(50):
+                print(data)
         return True
 
     def on_error(self, status):
