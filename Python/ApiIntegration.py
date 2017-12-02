@@ -12,7 +12,8 @@ access_token_secret = "aggABxF67fsBSDJDkhzpBbYiUF15M0fQuPU1Xy5XqK8xT"
 consumer_key = "McoZRCrbLbONTKGVHR65qLEmF"
 consumer_secret = "ffNHti5vHkkzu5sehaGkpB4Pvntds8tKYZFMw1pQTXcqFCR05f"
 
-
+with open ('TwitterOutput.txt', 'w') as f:
+    f.close()
 #Override tweepy.StreamListner, print statuses to stdout
 class StdOutListener(StreamListener):
 
@@ -23,17 +24,29 @@ class StdOutListener(StreamListener):
 
         
     def on_data(self, data):
-        with open ('TwitterOutput.txt') as f:
+
+        all_data = json.loads(data)
+        
+        tweet = all_data["text"]
+        tweet2 = tweet.replace(",", '')
+        
+        with open  ('TwitterFormatted.txt', 'a') as f1:
+            f1.write(str(tweet2))
+            f1.write(',')
+            f1.close
+
+        with open ('TwitterOutput.txt', 'a') as f:
             self.num_tweets += 1
-            if self.num_tweets < 20:
-                print(data)
+            if self.num_tweets < 5:
+                f.write(data)
                 return True
             else:
                 return False
-        
+                f.close()
 
     def on_error(self, status):
         print(status)
+        
 
 
 if __name__ == '__main__':
@@ -47,3 +60,15 @@ if __name__ == '__main__':
     restaurantName = input("Name of Restaurant")
     #Filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
     stream.filter(track=[restaurantName])
+
+    
+
+    
+##    for line in tweets_file:
+##        try:
+##            all_data = json.loads(data)
+##            tweet = all_data["text"]
+##            print(tweet)
+##        except:
+##            continue
+    
